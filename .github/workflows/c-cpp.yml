@@ -1,0 +1,27 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: configure
+      run: ./configure
+    - name: make
+      run: mkdir Release
+           cd Release
+           cmake -DCMAKE_BUILD_TYPE=Release ..
+           cmake --build .
+    - name: artifac
+      uses: actions/upload-artifact@v3
+      with:
+        name: test_libcaption
+        path: Release
